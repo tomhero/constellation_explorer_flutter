@@ -21,6 +21,11 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
   Widget _buildTitleField() {
     return TextFormField(
         decoration: InputDecoration(labelText: 'Constellation title'),
+        validator: (String val) {
+          if (val.trim().length <= 0) {
+            return 'Title is required';
+          }
+        },
         onSaved: (String val) {
           setState(() {
             _title = val;
@@ -32,6 +37,11 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
     return TextFormField(
         decoration: InputDecoration(labelText: 'Constellation Description'),
         maxLines: 3,
+        validator: (String val) {
+          if (val.trim().length <= 0) {
+            return 'Description is required';
+          }
+        },
         onSaved: (String val) {
           setState(() {
             _desc = val;
@@ -40,6 +50,9 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
   }
 
   void _submitForm() {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
     _formKey.currentState.save();
     final Map<String, dynamic> contellation = {
       'title': _title,
@@ -55,6 +68,11 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
     return TextFormField(
         decoration: InputDecoration(labelText: 'Star Count'),
         keyboardType: TextInputType.number,
+        validator: (String val) {
+          if (val.trim().length <= 0) {
+            return 'Star amount is required';
+          }
+        },
         onSaved: (String val) {
           setState(() {
             _stars = int.parse(val);
