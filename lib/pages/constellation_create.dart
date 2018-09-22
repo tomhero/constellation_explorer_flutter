@@ -16,11 +16,12 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
   String _title;
   String _desc;
   int _stars;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildTitleField() {
-    return TextField(
+    return TextFormField(
         decoration: InputDecoration(labelText: 'Constellation title'),
-        onChanged: (String val) {
+        onSaved: (String val) {
           setState(() {
             _title = val;
           });
@@ -28,10 +29,10 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
   }
 
   Widget _buildDescField() {
-    return TextField(
+    return TextFormField(
         decoration: InputDecoration(labelText: 'Constellation Description'),
         maxLines: 3,
-        onChanged: (String val) {
+        onSaved: (String val) {
           setState(() {
             _desc = val;
           });
@@ -39,6 +40,7 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
   }
 
   void _submitForm() {
+    _formKey.currentState.save();
     final Map<String, dynamic> contellation = {
       'title': _title,
       'desc': _desc,
@@ -50,10 +52,10 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
   }
 
   Widget _buildStarsField() {
-    return TextField(
+    return TextFormField(
         decoration: InputDecoration(labelText: 'Star Count'),
         keyboardType: TextInputType.number,
-        onChanged: (String val) {
+        onSaved: (String val) {
           setState(() {
             _stars = int.parse(val);
           });
@@ -64,7 +66,9 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-        padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.0),
+      child: Form(
+        key: _formKey,
         child: ListView(
           children: <Widget>[
             _buildTitleField(),
@@ -80,6 +84,8 @@ class _ConstellationCreatePageState extends State<ConstellationCreatePage> {
               onPressed: () => _submitForm(),
             )
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
